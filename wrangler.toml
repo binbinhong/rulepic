@@ -1,0 +1,8 @@
+name = "rulepic"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = ".next/standalone"
+
+[build]
+command = "pnpm build" 
