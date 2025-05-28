@@ -1,8 +1,13 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import html2canvas from 'html2canvas'
+import dynamic from 'next/dynamic'
 import { StyleProps, SizeProps } from '@/types'
+
+// 动态导入 html2canvas
+const html2canvas = dynamic(() => import('html2canvas'), {
+  ssr: false,  // 禁用服务端渲染
+})
 
 interface PreviewProps {
   text: string

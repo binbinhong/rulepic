@@ -1,4 +1,5 @@
 import './globals.css'
+import { StagewiseProvider } from '@/components/dev/StagewiseProvider'
 
 export const metadata = {
   title: '文字转图片工具',
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body className="min-h-screen bg-gray-50">{children}</body>
+      <body className="min-h-screen bg-gray-50">
+        {children}
+        <StagewiseProvider />
+      </body>
     </html>
   )
 }
