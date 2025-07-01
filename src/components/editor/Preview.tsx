@@ -1,13 +1,13 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic' // 删除 dynamic
 import { StyleProps, SizeProps } from '@/types'
 
-// 动态导入 html2canvas
-const html2canvas = dynamic(() => import('html2canvas'), {
-  ssr: false,  // 禁用服务端渲染
-})
+// 删除 dynamic 导入 html2canvas
+// const html2canvas = dynamic(() => import('html2canvas'), {
+//   ssr: false,  // 禁用服务端渲染
+// })
 
 interface PreviewProps {
   text: string
@@ -55,6 +55,9 @@ export default function Preview({ text, style, size }: PreviewProps) {
     let tempContainer: HTMLElement | null = null
     
     try {
+      // 动态导入 html2canvas
+      const html2canvas = (await import('html2canvas')).default
+
       tempContainer = document.createElement('div')
       tempContainer.style.cssText = 'position:absolute;left:-9999px;top:-9999px;'
       document.body.appendChild(tempContainer)

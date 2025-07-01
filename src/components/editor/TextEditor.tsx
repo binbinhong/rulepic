@@ -60,17 +60,17 @@ const FontSize = Extension.create({
 
   addCommands() {
     return {
-      setFontSize: (fontSize: string) => ({ chain }) => {
+      setFontSize: (fontSize: string) => ({ chain }: any) => {
         return chain()
           .setMark('textStyle', { fontSize })
           .run()
       },
-      unsetFontSize: () => ({ chain }) => {
+      unsetFontSize: () => ({ chain }: any) => {
         return chain()
           .setMark('textStyle', { fontSize: null })
           .run()
       },
-    }
+    } as any
   },
 })
 
@@ -174,9 +174,7 @@ export default function TextEditor({ value, onChange, style, onStyleChange }: Te
   const editor = useEditor({
     extensions: [
       StarterKit,
-      TextStyle.configure({
-        types: ['textStyle'],
-      }),
+      TextStyle,
       Color.configure({
         types: ['textStyle'],
       }),
