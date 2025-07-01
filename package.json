@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/build.js",
+    "build": "next build",
     "start": "next start",
-    "deploy": "pnpm build && npx wrangler pages deploy .next/standalone"
+    "build:cf": "next build && node scripts/build.js",
+    "deploy": "pnpm build:cf && npx wrangler pages deploy .next/standalone"
   },
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@9.0.0",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -26,7 +27,7 @@
   "devDependencies": {
     "@stagewise/toolbar-next": "^0.1.2",
     "@tailwindcss/typography": "^0.5.15",
-    "@types/node": "20.10.5",
+    "@types/node": "^22.12.0",
     "@types/react": "18.2.45",
     "@types/react-dom": "18.2.18",
     "autoprefixer": "10.4.16",
