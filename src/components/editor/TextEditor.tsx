@@ -27,6 +27,19 @@ const FontSizeOptions = [
   { label: '特大', size: '24px' },
 ]
 
+// 添加硬换行扩展
+const HardBreak = Extension.create({
+  name: 'hardBreak',
+  
+  addKeyboardShortcuts() {
+    return {
+      'Shift-Enter': () => {
+        return this.editor.commands.setHardBreak()
+      },
+    }
+  },
+})
+
 const FontSize = Extension.create({
   name: 'fontSize',
 
@@ -166,6 +179,14 @@ const MenuBar = ({ editor }: { editor: any }) => {
       >
         H3
       </button>
+
+      <button
+        onClick={() => editor.chain().focus().setHardBreak().run()}
+        className="px-2 py-1 rounded hover:bg-gray-100"
+        title="插入换行"
+      >
+        换行
+      </button>
     </div>
   )
 }
@@ -173,7 +194,18 @@ const MenuBar = ({ editor }: { editor: any }) => {
 export default function TextEditor({ value, onChange, style, onStyleChange }: TextEditorProps) {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        hardBreak: {
+          HTMLAttributes: {
+            class: 'break-line',
+          },
+        },
+        paragraph: {
+          HTMLAttributes: {
+            class: 'editor-paragraph',
+          },
+        },
+      }),
       TextStyle,
       Color.configure({
         types: ['textStyle'],
@@ -181,16 +213,22 @@ export default function TextEditor({ value, onChange, style, onStyleChange }: Te
       FontSize.configure({
         types: ['textStyle'],
       }),
+      HardBreak,
     ],
     content: value,
+    immediatelyRender: false, // 修复SSR警告
     onUpdate: ({ editor }) => {
       const content = editor.getHTML()
       onChange(content === '<p></p>' ? DEFAULT_TEXT : content)
     },
     editorProps: {
       attributes: {
-        class: 'prose max-w-none focus:outline-none min-h-[200px] [&_p]:leading-[1.6] [&_p]:tracking-[0.02em]',
+        class: 'prose max-w-none focus:outline-none min-h-[200px] [&_p]:leading-[1.6] [&_p]:tracking-[0.02em] [&_br]:block [&_br]:my-1 [&_p]:min-h-[1.2em] [&_p]:mb-[0.6em]',
       },
+    },
+    // 保留空段落和空白字符
+    parseOptions: {
+      preserveWhitespace: 'full',
     },
   })
 
@@ -221,7 +259,7 @@ export default function TextEditor({ value, onChange, style, onStyleChange }: Te
         </div>
       </div>
       <div className="text-sm text-gray-500 p-2 border-t">
-        提示：选中文字后可以设置样式
+        提示：按 Enter 创建新段落，按 Shift+Enter 创建换行，连续按Enter可创建空行
       </div>
     </div>
   )

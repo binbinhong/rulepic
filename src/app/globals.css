@@ -1,3 +1,101 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+/* 确保换行标签正确显示 */
+.ProseMirror br,
+.prose br,
+br.break-line {
+  display: block;
+  margin: 0.3em 0;
+  content: "";
+}
+
+/* 编辑器内的换行样式 */
+.ProseMirror {
+  white-space: pre-wrap;
+  height: auto;
+  min-height: 200px;
+  max-height: none;
+}
+
+/* 预览区域的换行样式 */
+.preview-content br {
+  display: block;
+  margin: 0.3em 0;
+  content: "";
+}
+
+/* 确保空段落有最小高度 */
+.ProseMirror p,
+.preview-content p,
+.editor-paragraph {
+  min-height: 1.2em;
+  margin-bottom: 0.6em;
+}
+
+/* 最后一个段落不需要底部边距 */
+.ProseMirror p:last-child,
+.preview-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* 空段落的特殊处理 */
+.ProseMirror p:empty,
+.preview-content p:empty,
+.editor-paragraph:empty {
+  min-height: 1.2em;
+  display: block;
+}
+
+/* 确保空段落在编辑时可见 */
+.ProseMirror p:empty::before {
+  content: "\00a0"; /* 不间断空格 */
+  color: transparent;
+}
+
+/* 预览容器样式优化 */
+.preview-content {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* 确保导出时的样式正确 */
+#preview-content {
+  width: 750px !important;
+  height: auto !important;
+  max-height: none !important;
+  box-sizing: border-box;
+}
+
+/* 强制覆盖编辑器内容中的内联字体样式 */
+.preview-content * {
+  font-size: inherit !important;
+}
+
+/* 保持标题的相对大小 */
+.preview-content h1 {
+  font-size: 2em !important;
+  font-weight: bold !important;
+}
+
+.preview-content h2 {
+  font-size: 1.5em !important;
+  font-weight: 600 !important;
+}
+
+.preview-content h3 {
+  font-size: 1.25em !important;
+  font-weight: 600 !important;
+}
+
+/* 确保其他元素使用继承的字体大小 */
+.preview-content p,
+.preview-content span,
+.preview-content div:not(.preview-content),
+.preview-content strong,
+.preview-content em {
+  font-size: inherit !important;
+} 
